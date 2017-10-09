@@ -5,8 +5,9 @@ class TTT(object):
         self.board = [' ']*9
         self.player = 'X'
         if False:
-            self.board = ['O', 'X', 'X', 'O', 'O', ' ', ' ', 'X', ' ']
-            self.player = 'X'
+            #self.board = ['O', 'X', 'X', 'O', 'O', ' ', ' ', 'X', ' ']
+            self.board = ['O', 'O', ' ', 'X', ' ', ' ', ' ', ' ', 'X']
+            self.player = 'O'
         self.playerLookAHead = self.player
 
     def locations(self, c):
@@ -117,28 +118,23 @@ def negamaxab(game, depthLeft, alpha = -float('inf'), beta = float('inf')):
     if game.isOver() or depthLeft == 0:
         return game.getUtility(), None
 
-
     # Find best move and its value from current state
     bestValue = -float('infinity')
     bestMove = None
-
-    
     for move in game.getMoves():
-        if bestValue >= beta:
-            return bestValue, bestMove
 
         # Negate and swap values of alpha and beta
-        alpha = -alpha
-        beta = -beta
-        temp = alpha
-        alpha = beta
-        beta = temp
+        #alpha = -alpha
+        #beta = -beta
+        #temp = alpha
+        #alpha = beta
+        #beta = temp
         
         # Apply a move to current state
         game.makeMove(move)
         # Use depth-first search to find eventual utility value and back it up.
         #  Negate it because it will come back in context of next player
-        value, _ = negamaxab(game, depthLeft-1, alpha, beta)
+        value, _ = negamaxab(game, depthLeft-1, -beta, -alpha)
         # Remove the move from current state, to prepare for trying a different move
         game.unmakeMove(move)
         if value is None:
@@ -149,6 +145,8 @@ def negamaxab(game, depthLeft, alpha = -float('inf'), beta = float('inf')):
             bestValue = value
             bestMove = move
         alpha = max(bestValue, alpha)
+        if bestValue >= beta:
+            return bestValue, bestMove
     return bestValue, bestMove
 
 
