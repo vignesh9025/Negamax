@@ -149,6 +149,15 @@ def negamaxIDSab(game, maxDepth):
         if result == winVal:
             return result, move
     return result, move
+    
+def negamaxIDS(game, maxDepth):
+    for depth in range(1, maxDepth):
+        print("We're at depth: ", depth)
+        # CALLING negamax FOR EACH DEPTH VALUE
+        result, move = negamax(game, depth)
+        if result == 1:
+            return result, move
+    return result, move
 
 def negamaxIDS(game, maxDepth):
     for depth in range(maxDepth + 1):
